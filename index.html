@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستعمرة الكوكب الغريب</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>المستعمرة</h1>
+            <div class="game-status">
+                <span id="day-display">اليوم: 1 / 30</span>
+                <span id="population-display">السكان: 100 🧑‍🤝‍🧑</span>
+            </div>
+        </header>
+
+        <main>
+            <section class="resources-section">
+                <h2>الموارد</h2>
+                <div class="resources-grid">
+                    <div class="resource">
+                        <label>الطعام 🍔</label>
+                        <progress id="res-food" value="50" max="100"></progress>
+                        <span id="val-food" class="res-val">50</span>
+                    </div>
+                    <div class="resource">
+                        <label>المياه 💧</label>
+                        <progress id="res-water" value="50" max="100"></progress>
+                        <span id="val-water" class="res-val">50</span>
+                    </div>
+                    <div class="resource">
+                        <label>الطاقة ⚡</label>
+                        <progress id="res-energy" value="50" max="100"></progress>
+                        <span id="val-energy" class="res-val">50</span>
+                    </div>
+                    <div class="resource">
+                        <label>المعنويات 😊</label>
+                        <progress id="res-morale" value="50" max="100"></progress>
+                        <span id="val-morale" class="res-val">50</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="team-section">
+                <h2>فريق الإدارة</h2>
+                <div class="team-grid" id="team-container">
+                    <!-- Team members will be injected here by JS -->
+                </div>
+            </section>
+
+            <section class="actions-section">
+                <h2>الإجراءات المتاحة</h2>
+                <div class="actions-grid" id="actions-container">
+                    <!-- Actions will be injected here by JS -->
+                </div>
+            </section>
+        </main>
+
+        <section id="event-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2 id="event-title">حدث يومي</h2>
+                <p id="event-description">تفاصيل الحدث...</p>
+                <div id="event-choices" class="choices-container">
+                    <!-- Choices will be injected here -->
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <button id="next-day-btn">إنهاء اليوم</button>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
