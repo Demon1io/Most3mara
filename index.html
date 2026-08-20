@@ -17,17 +17,17 @@
         <!-- Main Stage Area -->
         <main id="stage" class="bg-street">
 
-            <!-- Character rendering -->
-            <div id="character" class="char-idle">
-                <div class="head"></div>
-                <div class="body"></div>
-                <div class="legs"></div>
+            <!-- Character rendering (We will inject SVG here via JS) -->
+            <div id="character-container" class="char-idle">
+                <!-- SVG will go here -->
             </div>
 
             <!-- Minigame Overlay (Hidden by default) -->
             <div id="minigame-container" class="hidden">
-                <div class="door-target">🚪</div>
-                <div id="camera-view">🎥</div>
+                <div class="camera-ui-frame">
+                    <div class="door-target">🚪</div>
+                    <div id="camera-view">🎥</div>
+                </div>
                 <div class="controls">
                     <button id="cam-left">◀</button>
                     <button id="cam-right">▶</button>
@@ -39,9 +39,9 @@
 
         <!-- Dialogue / UI Overlay -->
         <footer id="dialogue-box">
+            <div id="choices-container" class="hidden"></div>
             <div id="text-container"></div>
             <button id="next-btn" class="hidden">التالي ➔</button>
-            <div id="choices-container" class="hidden"></div>
         </footer>
 
         <!-- Inventory Modal -->

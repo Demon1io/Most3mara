@@ -1,6 +1,6 @@
 // --- DOM Elements ---
 const stage = document.getElementById('stage');
-const character = document.getElementById('character');
+const characterContainer = document.getElementById('character-container');
 const textContainer = document.getElementById('text-container');
 const nextBtn = document.getElementById('next-btn');
 const choicesContainer = document.getElementById('choices-container');
@@ -13,6 +13,45 @@ const cameraView = document.getElementById('camera-view');
 const camLeftBtn = document.getElementById('cam-left');
 const camRightBtn = document.getElementById('cam-right');
 const camConfirmBtn = document.getElementById('cam-confirm');
+const dialogueBox = document.getElementById('dialogue-box');
+
+// --- SVG Character Template ---
+const svgCharacter = `
+<svg id="character-svg" viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg">
+    <!-- Legs -->
+    <g id="left-leg" transform="translate(40, 100)">
+        <rect x="-10" y="0" width="15" height="40" fill="#2c3e50" rx="3" />
+        <rect x="-12" y="35" width="20" height="10" fill="#111" rx="2" />
+    </g>
+    <g id="right-leg" transform="translate(60, 100)">
+        <rect x="-5" y="0" width="15" height="40" fill="#34495e" rx="3" />
+        <rect x="-7" y="35" width="20" height="10" fill="#111" rx="2" />
+    </g>
+
+    <!-- Body -->
+    <rect x="25" y="50" width="50" height="55" fill="#2980b9" rx="5" />
+    <!-- Toolbelt -->
+    <rect x="23" y="90" width="54" height="10" fill="#8e44ad" rx="2" />
+    <rect x="30" y="85" width="10" height="15" fill="#f1c40f" rx="1" />
+
+    <!-- Head -->
+    <g id="head-group">
+        <rect x="30" y="10" width="40" height="40" fill="#f1c27d" rx="8" />
+        <!-- Eyes -->
+        <circle cx="42" cy="25" r="4" fill="#000" />
+        <circle cx="58" cy="25" r="4" fill="#000" />
+        <!-- Hair/Cap -->
+        <path d="M 28 20 C 30 5, 70 5, 72 20 Z" fill="#e74c3c" />
+        <rect x="25" y="20" width="15" height="5" fill="#e74c3c" rx="2" />
+    </g>
+
+    <!-- Arms -->
+    <rect x="15" y="55" width="12" height="35" fill="#3498db" rx="4" />
+    <rect x="73" y="55" width="12" height="35" fill="#3498db" rx="4" />
+</svg>
+`;
+
+characterContainer.innerHTML = svgCharacter;
 
 // --- Engine State ---
 let currentSceneId = 'scene_1';
@@ -37,7 +76,7 @@ function typeWriter(text, callback) {
 
     if (typewriterInterval) clearInterval(typewriterInterval);
 
-    // Very fast typewriter (15ms per character)
+    // Fast typewriter (15ms per character)
     typewriterInterval = setInterval(() => {
         textContainer.innerHTML += text.charAt(i);
         i++;
@@ -71,6 +110,10 @@ function renderScene(sceneId) {
     choicesContainer.innerHTML = '';
     minigameContainer.classList.add('hidden');
 
+    // Explicitly show character and dialog box by default for non-minigame scenes
+    dialogueBox.classList.remove('hidden');
+    characterContainer.classList.remove('hidden');
+
     // Update Background
     stage.className = '';
     if (scene.backgroundClass) {
@@ -78,9 +121,9 @@ function renderScene(sceneId) {
     }
 
     // Update Character Animation
-    character.className = '';
+    characterContainer.className = '';
     if (scene.characterAnimation) {
-        character.classList.add(`char-${scene.characterAnimation}`);
+        characterContainer.classList.add(`char-${scene.characterAnimation}`);
     }
 
     // Render based on type
@@ -143,8 +186,9 @@ function renderChoices(choices) {
 // --- Minigame (Camera Adjust) ---
 let camPosition = 80; // percentage
 function renderMinigame(scene) {
-    // Show text briefly
-    textContainer.innerHTML = scene.text[0];
+    // Completely hide character and dialogue box
+    characterContainer.classList.add('hidden');
+    dialogueBox.classList.add('hidden');
 
     // Show minigame UI
     minigameContainer.classList.remove('hidden');
@@ -158,6 +202,7 @@ function renderMinigame(scene) {
     camRightBtn.onclick = () => moveCam(10);
 
     camConfirmBtn.onclick = () => {
+        // Cleanup minigame state
         minigameContainer.classList.add('hidden');
         renderScene(scene.next);
     };
